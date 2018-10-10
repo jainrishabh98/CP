@@ -10,7 +10,7 @@ int main ()
     for(int i=0;i<n;i++)
         {cin>>c[i];
          cin>>s[i];
-         for(int j =0; j< len(s[i]); j++)
+         for(int j =0; j< strlen(s[i]); j++)
             {
                 if(s[i][j]=='A')
                     fl1=1;
@@ -19,7 +19,7 @@ int main ()
                 else
                     fl3=1;
             }
-        sort(s[i],s[i]+len(s[i]));
+        sort(s[i],s[i]+strlen(s[i]));
         }
     if(fl1 == 1 && fl2==1 && fl3==1)
     {
