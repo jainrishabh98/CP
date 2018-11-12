@@ -36,7 +36,7 @@ int main ()
             cin>>a>>b;
             edge(a,b);
         }
-        cout<<"\nAdjacency List Representation of Graph\n"
+        cout<<"\nAdjacency List Representation of Graph\n";
         for (int i=0; i<n; i++)
         {
             for(auto j= g[i].begin(); j!= g[i].end();j++)
