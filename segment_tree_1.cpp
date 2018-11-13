@@ -41,10 +41,14 @@ int main ()
     int n;
     cin>>n;
     arr.assign(n,0);
+    int temp = (int)(ceil(log2(n)));
+    int max_size = 2*(int)pow(2,temp) -1;
+    segtree.assign(max_size,0);
     for (int i=0; i<n; i++)
         cin>>arr[i];
     build(0,n-1,0);    
     int q,x;
+    cin>>q;
     while(q--)
     {
         cin>>x;
