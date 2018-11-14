@@ -72,11 +72,16 @@ int main ()
     int ans = INF;
     for (int i=0;i<n;i++)
     {   p = s[i].in;
-        qhigh =  p-1;
-        diff = query(0,n-1,0) + 1;
-        //cout<<diff<<"\n";
+        if (p>0)
+        {
+            qhigh =  p-1;
+            diff = query(0,n-1,0) + 1;
+        }
+        else
+            diff =1;
+        // cout<<diff<<"\n";
         if (diff == l)
-            ans = min(ans,s[i].value);
+           ans = min(ans,s[i].value);
         update(0,n-1,0);
     }
     // for (int i=0;i<max_size;i++)
