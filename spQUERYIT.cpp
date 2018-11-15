@@ -17,11 +17,11 @@ void build (int low, int high, int pos)
     {
         if(arr[low]==0)
             {segtree[pos].first++;
-             segtree[pos].z_index == low;
+             segtree[pos].z_index = low;
             }
         else
             {segtree[pos].second++;
-             segtree[pos].o_index == low;
+             segtree[pos].o_index = low;
             }
         return ;
     }
@@ -41,13 +41,17 @@ void update(int low, int high, int pos)
     if (low == high)
     {
         arr[low]= arr[low]^1;
+        segtree[pos].first=0;
+        segtree[pos].second=0;
+        segtree[pos].o_index=INF;
+        segtree[pos].z_index= -INF;
         if(arr[low]==0)
             {segtree[pos].first++;
-            segtree[pos].z_index == low;
+            segtree[pos].z_index = low;
             }
         else
             {segtree[pos].second++;
-             segtree[pos].o_index == low;
+             segtree[pos].o_index = low;
             }
         return ;
     }
@@ -106,7 +110,7 @@ int main ()
             {   int temp1 = (segtree[0].first + query(0,n-1,0,segtree[0].z_index+1,n-1).second);
                 int temp2 = (segtree[0].second + query(0,n-1,0,0,segtree[0].o_index-1).first);
                 final_ans = max(temp1,temp2);
-                cout<<segtree[0].z_index<<" "<<segtree[0].o_index<<" "<<temp1<<" "<<temp2<<" "<<"\n";
+                // cout<<segtree[0].z_index<<" "<<segtree[0].o_index<<" "<<temp1<<" "<<temp2<<" "<<"\n";
                 cout<<final_ans<<"\n";
             }
         else
