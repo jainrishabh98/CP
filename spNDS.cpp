@@ -69,7 +69,7 @@ int main ()
     cin>>l;
     sort(s,s+n,comp);
     qlow = 0;
-    int ans = INF;
+    int ans = -1;
     for (int i=0;i<n;i++)
     {   p = s[i].in;
         if (p>0)
@@ -81,16 +81,15 @@ int main ()
             diff =1;
         // cout<<diff<<"\n";
         if (diff == l)
-           ans = min(ans,s[i].value);
+           {ans = s[i].value;
+            break;
+           }
         update(0,n-1,0);
     }
     // for (int i=0;i<max_size;i++)
     //     cout<<segtree[i]<<" ";
     // cout<<"\n";
-    if(segtree[0] < l)
-        cout<<"-1\n";
-    else
-        cout<<ans<<"\n";
+    cout<<ans<<"\n";
     
     }
     return 0;
