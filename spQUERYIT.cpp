@@ -1,3 +1,5 @@
+// WA - not optimal - fails in 100001101
+
 #include<bits/stdc++.h>
 using namespace std;
 int INF = INT_MAX;
@@ -124,3 +126,4 @@ int main ()
     
     return 0;
 }
+
