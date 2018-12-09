@@ -49,7 +49,6 @@ int main ()
     build(0,n-1,0);    
     int q,x;
     cin>>q;
-    // hello
     while(q--)
     {
         cin>>x;
