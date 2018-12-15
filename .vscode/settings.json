@@ -102,5 +102,5 @@
         "workbench.action.toggleMaximizedPanel",
         "workbench.action.togglePanel"
     ],
-    "files.autoSave": "onFocusChange"
+    
 }
