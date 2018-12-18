@@ -51,8 +51,8 @@ void my_dfs(ll u)
             my_dfs(j->first);
         }
         
-        // else if (v[j->first] && dp[prnt[j->first]]!=-1 && dp[prnt[j->first]] >= j->second)
-        //     {ans += dp[j->first]; ans -= j->second;}
+        else if (v[j->first] && dp[prnt[j->first]]!=-1 && dp[prnt[j->first]] >= j->second)
+            {ans += dp[j->first]; ans -= j->second;}
         
     }
 }
@@ -77,10 +77,10 @@ int main()
     // cout<<mx<<"\n";
     for(int i=0;i<n;i++)
     { 
-        v.assign(n, false);
-        // if(!v[i])
+        // v.assign(n, false);
+        if(!v[i])
             my_dfs(i);
-        // dp[i] = ans;
+        dp[i] = ans;
         // fn = max(fn,dp[i]);
         ans=0;            
     }
