@@ -1,75 +1,85 @@
 #include<bits/stdc++.h>
+// someone else's solution
 using namespace std;
-struct st{
-    string s;
-    int len;
-    int in;
-};
-struct stt{
-    char c;
-    int ind;
-};
-bool comp (st a, st b)
-{
-    return ((a.len != b.len) ? (a.len < b.len) : (a.s < b.s));
-}
-bool comp2 (stt a, stt b)
-{
-    return (a.ind < b.ind);
-}
-int main ()
-{   int n;
-    cin>>n;
-    int temp = 2*n -2;
-    st v[temp];
-    stt ans[temp];
-    string s1;
-    string s2;
-    for (int i=0;i<temp;i++)
-    {
-        cin>>v[i].s;v[i].len = v[i].s.length();v[i].in = i+1;
-    }
-    sort(v,v+temp,comp);
-    char start = v[0].s[0];
-    ans[0].c = 'P';ans[0].ind = v[0].in;
-    ans[1].c = 'S';ans[1].ind = v[1].in;
-    char end = v[1].s[0];
-    int cnt = 0;
-    for (int i=0;i<temp;i++)
-    {
-        if(v[i].s[0] == start)
-            cnt++;
+#define ll long long int
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define MOD 998244353
+#define MAXN 300005
+unordered_map<int, vector<pair<string,int> > > M;
 
-    }
-    if(cnt < (n-1))
-        {start = v[1].s[0];ans[0].c = 'S';ans[1].c = 'P'; end = v[0].s[0];}
-    s1.push_back(start);
-    s2.push_back(start); // anyone of s1 or s2 is the correct string
-    s1.append(v[temp-1].s);
-    s2.append(v[temp-2].s);
-    string tmp =s1;
-    for(int k=0;k<=1;k++)
-    {   cnt=1;int cnt1=0,cnt2=0;
-        if(k==1) tmp = s2;
-        for(int i=2;i<temp;i++)
-        {
-            if(i%2==0) cnt++;
-            string tm = tmp.substr(0,cnt);
-            string tp = tmp.substr(n-cnt,cnt);
-            // cout<<v[i].s<<" "<<tm<<" "<<tp<<"\n";
-            if(v[i].s == tm && v[i].s != v[i-1].s)
-                {ans[i].c = 'P';cnt1++;}
-            else if(v[i].s == tp)
-                {ans[i].c = 'S';cnt2++;}
-        
-            ans[i].ind = v[i].in;
-        }
-        if(cnt1==n-2 && cnt2==n-2) // if s1 is correct then break
-            break;
-    }
-    sort(ans,ans+temp,comp2);
-    for (int i=0;i<temp;i++)
-    { cout<<ans[i].c;}
-    cout<<"\n";
-    return 0;
+char ans[505];
+
+int main()
+{
+	int n; cin>>n; string s;
+	for(int i=0;i<2*n - 2; ++i)
+	{
+		cin>>s;
+		M[s.length()].pb(mp(s,i));
+	}
+	ans[M[n-1][0].second] = 'P';
+	ans[M[n-1][1].second] = 'S';
+	bool justdoit = false;
+	for(int i=n-2;i>0;--i)
+	{
+		if(M[i][0].first == M[n-1][0].first.substr(0,i))
+		{
+			ans[M[i][0].second] = 'P';
+			ans[M[i][1].second] = 'S';
+		}
+		else if(M[i][1].first == M[n-1][0].first.substr(0,i))
+		{
+			ans[M[i][0].second] = 'S';
+			ans[M[i][1].second] = 'P';
+		}
+		else
+		{
+			justdoit = true;
+			break;
+		}
+	}
+	for(int i=n-2;i>0;--i)
+	{
+	    string str1 = M[n-1][0].first.substr(n-1-i,i);
+    	if(ans[M[1][0].second] == 'S')
+    	    str1 = str1.append(M[1][0].first);
+    	else
+    	    str1 = str1.append(M[1][1].first);
+    	if(ans[M[i+1][1].second] == 'S' && str1 != M[i+1][1].first)
+    	{
+    	    justdoit = true;
+    	    // cout<<str1<<" "<<M[n-1][1].first<<endl;
+    	    break;
+    	}
+    	else if(ans[M[i+1][0].second] == 'S' && str1 != M[i+1][0].first)
+    	{
+    	    justdoit = true;
+    	    // cout<<str1<<" "<<M[n-1][1].first<<endl;
+    	    break;
+    	}
+	}
+	if(!justdoit)
+	{
+		for(int i=0;i<2*n - 2;++i) cout<<ans[i];
+		return 0;
+	}
+	ans[M[n-1][0].second] = 'S';
+	ans[M[n-1][1].second] = 'P';
+	for(int i=n-2;i>0;--i)
+	{
+		if(M[i][0].first == M[n-1][1].first.substr(0,i))
+		{
+			ans[M[i][0].second] = 'P';
+			ans[M[i][1].second] = 'S';
+		}
+		else
+		{
+			ans[M[i][0].second] = 'S';
+			ans[M[i][1].second] = 'P';
+		}
+	}
+	for(int i=0;i<2*n - 2;++i) cout<<ans[i];
+	return 0;
 }
