@@ -62,14 +62,14 @@ int main ()
 {
     int t;
     cin>>t;
-    segmentedSieve(611952);
+    segmentedSieve(611953);
     int y = 611953;
     while(t--)
     {
         int n;
         cin>>n;
-        auto x = primes.begin();x++;x++;
-        cout<<"10 ";int k=2,i;
+        auto x = primes.begin();x++;x++;x++;x++;
+        cout<<"55 ";int k=2,i;
         for(i=1;i<n-2;i++)
         {
             if(i%2!=0)
@@ -88,12 +88,15 @@ int main ()
         i--;
         if(k==3 && i%2!=0)
         {
-            cout<<(*x)*3<<" "<<(*x)*2<<"\n";
+            cout<<(*x)*3<<" "<<(*x)*5<<"\n";
         }
         else if(i%2==0){
-        auto temp = x;
-        temp++;
-        cout<<(*x)*(*temp)<<" "<<(*temp)*2<<"\n";
+        // auto temp = x;
+        // temp++;
+        cout<<(*x)*7<<" "<<7*5<<"\n";
+        }
+        else{
+            cout<<(*x)*2<<" "<<(*x)*5<<"\n";
         }
     }
     return 0;
