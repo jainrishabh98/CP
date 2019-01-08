@@ -50,14 +50,14 @@ int main ()
     {
         cnt[a[i]]++;
         r[i] = cnt[a[i]];    // frequency array for n-1 to i index
-        update(r[i]+1,1);
+        update(r[i],1);
         // cout<<r[i]<<" ";
     }
     long long int result = 0;
     for(int i=0;i<n;i++)
     {
-        update(r[i]+1,-1);
-        result += (sum(l[i]) - sum(1));
+        update(r[i],-1);
+        result += sum(l[i]-1) ;
 
     }
     cout<<result<<"\n";
