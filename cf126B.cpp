@@ -5,31 +5,53 @@ int main()
     string s;
     cin >> s;
     int l = s.length();
-    int len = 0;
-    int low = 0, high = l - 1;
-    string ans;
-    int flag = 0;
-    while (low < high)
-    {
-        int mid = (low + high) / 2;
+    if(l==1 || l==2)
+        {cout<<"Just a legend\n";return 0;}
+    int lps[l]; 
+    lps[0] = 0;
+    int len = 0; 
+    int i = 1; 
+    while (i < l) 
+    { 
+        if (s[i] == s[len]) 
+        { 
+            len++; 
+            lps[i] = len; 
+            i++; 
+        } 
+        else 
+        { 
+         
+            if (len != 0) 
+            { 
+                len = lps[len-1]; 
+            } 
+            else 
+            { 
+                lps[i] = 0; 
+                i++; 
+            } 
+        } 
+    } 
 
-        string t = s.substr(mid, l - 2 * mid);
-        int index = t.find(s.substr(0, mid));
-        int i = s.rfind(s.substr(0, mid));
-        // cout << t << "\n";
-        if (index < l && i<l && i!=index && i!=0)
-        {
-            ans = s.substr(0, mid);
-            flag = 1;
-            low = mid+1;
-        }
-        else
-            high = mid - 1;
-    }
-    if (flag == 0)
-        cout << "Just a legend\n";
+    if(lps[l-1]==0)
+        cout<<"Just a legend\n";
     else
-        cout << ans << "\n";
-
+    {
+        for(int i=l-2;i>=1;i--)
+        {   
+            if(lps[i]==lps[l-1])
+            {
+                cout<<s.substr(0,lps[i])<<"\n";return 0;
+            }
+                
+        }
+        if(lps[lps[l-1]-1]==0)
+            cout<<"Just a legend\n";
+        else
+            cout<<s.substr(0,lps[lps[l-1]-1])<<"\n";
+    }
+    
+    
     return 0;
 }
