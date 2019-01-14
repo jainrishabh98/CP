@@ -1,65 +1,65 @@
 #include<bits/stdc++.h>
 using namespace std;
+typedef long long int ll;
 int main ()
 {
     string s;
     cin>>s;
-    int n= s.length();
-    int ce = 0;
-    int co = 0;
-    int fla=0,flb=0,cnt=0,cn=0;
-    for(int i=0;i<n;)
+    ll n= s.length();
+    ll ce = 0;
+    ll co = 0;
+    ll fla=0,flb=0,preva,prevb,prevcea=0,prevcoa=0,prevceb=0,prevcob=0,te,to;
+    ll ans=0;
+    for(ll i=0;i<n;i++)
     {
-        if(s[i]=='a')
-        {   if(fla==1 && flb==1) {cnt++;co += cnt;}
-            int fl=1;i++;
-            while(s[i]=='a' && i<n)
-            {
-                fl++;
-                if(fla==1 && flb==1) 
-                {
-                    if(i%2==0) co += cnt;    // indexing is 0 based
-                    else ce += cnt;
-                }
-                i++;
-            }
-            if(fl%2==0)
-            {
-                co += ((fl+2)*fl)/4; ce += (fl*fl)/4;
+        if(s[i]=='a' && fla==0) {fla=1;preva=i;}
+        else if(s[i]=='b' && flb==0) {flb=1;prevb=i;}
+        else if(s[i]=='a')
+        {
+            if((i-preva+1)%2==0)
+            {   te = prevcoa + 1;
+                to = prevcea;
+                ce += te;
+                co += to;
+                prevcoa = to;
+                prevcea = te;
             }
             else
             {
-               co += ((fl+1)*(fl+1))/4; ce += ((fl-1)*(fl+1))/4;
+                te = prevcea;
+                to = prevcoa+1;
+                ce += te;
+                co += to;
+                prevcoa = to;
+                prevcea = te;
             }
-            if(fla==0) fla=1;
-            // cout<<ce<<" "<<co<<"\n";
+            preva=i;
         }
         else
-        {   if(fla==1 && flb==1) {cn++;co += cn;}
-            int fl=1;i++;
-            while(s[i]=='b' && i<n)
+        {
+            if((i-prevb+1)%2==0)
             {
-                fl++;
-                if(fla==1 && flb==1) 
-                {
-                    if(i%2==0) co += cn; // indexing is 0 based
-                    else ce += cn;
-                }
-                i++;
-                // cout<<fl<<" "<<ce<<" "<<co<<"\n";
-            }
-            if(fl%2==0)
-            {
-                co += ((fl+2)*fl)/4; ce += (fl*fl)/4;
+                te = prevcob + 1;
+                to = prevceb;
+                ce += te;
+                co += to;
+                prevcob = to;
+                prevceb = te;
             }
             else
             {
-                co += ((fl+1)*(fl+1))/4; ce += ((fl-1)*(fl+1))/4;
+                te = prevceb;
+                to = prevcob+1;
+                ce += te;
+                co += to;
+                prevcob = to;
+                prevceb = te;
             }
-            if(flb==0) flb=1;
-            // cout<<ce<<" "<<co<<"\n";
+            prevb=i;
         }
+    // cout<<ce<<" "<<co<<"\n";
     }
+    co += n;
     cout<<ce<<" "<<co<<"\n";
     return 0;
 }
