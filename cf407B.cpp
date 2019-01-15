@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
+// better soln =  dp[i + 1] = 2dp[i] + 2 - dp[pi]. see tutorial
 int main()
 {
     ll n, m = 1e9 + 7;
