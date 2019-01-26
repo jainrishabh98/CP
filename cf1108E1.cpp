@@ -36,7 +36,10 @@ int main ()
     }
     int ans = 0,ansi=0,anc=0;
     for(int i=1;i<=n;i++)
-    {   int cnt=0;
+    {   
+        int cnt=0;
+        int mx = INT_MIN;
+        int mn = a[i];
         for(int j=1;j<=m;j++)
         {   
             if(i>=l[j] && i<=r[j])
@@ -44,14 +47,13 @@ int main ()
                 update(l[j],1);
                 update(r[j]+1,-1);
                 cnt++;
+                mn--;
             }
         }
-        int mx = INT_MIN;
-        int mn = INT_MAX;
+        
         for(int i=1;i<=n;i++)
         {
-            mx = max(mx,query(i)-query(i-1));
-            mn = min(mn,query(i)-query(i-1));
+            mx = max(mx,a[i]-query(i));
         }
         if(mx-mn > ans)
         {
