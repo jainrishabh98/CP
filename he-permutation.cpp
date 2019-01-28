@@ -1,33 +1,36 @@
 #include<bits/stdc++.h>
 using namespace std;
-int n,m;
-vector <int> g[10001];
-int vis[10001];
-queue <int> q;
-void bfs(int u)
+unordered_map <string,int> vis;
+queue <string> q;
+string s,ans,v,temp;
+int n,x;
+void bfs()
 {
-    vis[u]=1;
-    q.push(u);
+    vis[s]=0;
+    q.push(s);
     while(!q.empty())
     {
-        int v = q.front();
+        v = q.front();
         q.pop();
-        for(auto i:g[v])
-        {
-            if(!vis[i])
+        if(v==ans)
+            {cout<<vis[ans];return;}
+        for(int i=2;i<=n;i++)
+        {   
+            temp = v;
+            reverse(temp.begin(),temp.begin()+i);
+            if(vis.find(temp)==vis.end())
             {
-                vis[i]=vis[v]+1;
-                q.push(i);
+                vis[temp]=vis[v]+1;
+                q.push(temp);
             }
         }
-        g[v].clear();
     }
 }
 int main ()
 {
-    int n;
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     cin>>n;
-    int a[n];
-    for(int i=0;i<n;i++)    cin>>a[i];
-
+    for(int i=0;i<n;i++)    {cin>>x;s.push_back((char)(x+'0'));ans.push_back((char)(i+1+'0'));}
+    bfs();
 }
