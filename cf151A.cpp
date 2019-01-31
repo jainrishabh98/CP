@@ -1,0 +1,12 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main ()
+{
+    int n,k,l,c,d,p,nl,np;
+    cin>>n>>k>>l>>c>>d>>p>>nl>>np;
+    l = l*k;
+    d = c*d;
+    nl = n*nl;
+    np = n*np;
+    cout<<min(l/nl,min(p/np,d/n));
+}
