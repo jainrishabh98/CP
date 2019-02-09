@@ -3,39 +3,33 @@ using namespace std;
 int main ()
 {   ios::sync_with_stdio(false);
     cin.tie(0);
-    int t,sum,n,ans,tm;
+    int t,sum,ans,tm;
+    int cnt[26];
     string s;
     cin>>t;
     while(t--)
     {
         cin>>s;
-        vector <int> v;
-        int cnt[26]={0};
+        memset(cnt,0,sizeof(cnt));
         sum = s.length();
         for(int i=0;i<s.length();i++)
         {
             cnt[s[i]-'A']++;
         }
-        for(int i=0;i<26;i++)
-        {
-            if(cnt[i]!=0)
-                v.push_back(cnt[i]);
-        }
-        sort(v.begin(),v.end());
-        n = v.size();
+        sort(cnt,cnt+26);
         ans = 1e9;
         tm = 0;
-        for(int i=0;i<n;i++)
+        for(int i=0;i<26;i++)
         {   
-            if(i>0) tm += v[i-1];
-            if(sum%(n-i)==0)
+            if(i>0) tm += cnt[i-1];
+            if(sum%(26-i)==0)
             {
-                int mean = sum/(n-i);
+                int mean = sum/(26-i);
                 int temp = 0;
-                for(int j=i;j<n;j++)
+                for(int j=i;j<26;j++)
                 {
-                    if(v[j] > mean)
-                        temp += v[j] - mean;
+                    if(cnt[j] > mean)
+                        temp += cnt[j] - mean;
                 }
                 temp += tm;
                 // cout<<temp<<" "<<n-i<<"\n";

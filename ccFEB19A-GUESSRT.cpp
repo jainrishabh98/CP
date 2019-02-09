@@ -1,45 +1,38 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
 ll mod = 1e9 + 7;
-ll n,m,k,p,ans,inv,a,b,c;
-ll fp(ll x,ll y)
+ll n, m, k, p, ans, inv, a, b, c;
+ll fp(ll x, ll y)
 {
-    if(y==0)    return 1;
-    else if(y==1)    return x;
-    else if(y%2==0) return (fp(x,y/2) * fp(x,y/2))%mod;
-    else return (((fp(x,y/2) * fp(x,y/2))%mod)*x)%mod;
+    if (y == 0)
+        return 1;
+    ll p = fp(x, y / 2) % mod;
+    p = (p * p) % mod;
+    return (y % 2 == 0) ? p : (x * p) % mod;
 }
-int main ()
+int main()
 {
-    // ios::sync_with_stdio(false);
-    // cin.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     int t;
-    cin>>t;
-    cout<<"h ";
-    while(t--)
-    {   
-        cout<<"h ";
-        cin>>n>>k>>m;
-        cout<<"h ";
-        p = (m+1)/2;
-        cout<<"h ";
-        c = fp(n-1,p);
-        cout<<"h ";
-        b = fp(n,p);
-        cout<<"h ";
-        a = (b-c+mod)%mod;
-        cout<<"h ";
-        inv = fp(b,mod-2);
-        cout<<"h ";
-        ans = (a*inv)%mod;
-        cout<<"h ";
-        if(m%2==0)
+    cin >> t;
+    while (t--)
+    {
+        
+        cin >> n >> k >> m;
+        p = (m + 1) / 2;
+        c = fp(n - 1, p);
+        b = fp(n, p);
+        a = (b - c + mod) % mod;
+        inv = fp(b, mod - 2);
+        ans = (a * inv) % mod;
+        if (m % 2 == 0)
         {
-            b = (b*(n+k))%mod;
-            inv = fp(b,mod-2);
-            ans = (ans + (c*inv)%mod)%mod;
+            b = (b * (n + k)) % mod;
+            inv = fp(b, mod - 2);
+            ans = (ans + (c * inv) % mod) % mod;
         }
-        cout<<ans<<"\n";
+        cout << ans << "\n";
     }
 }
