@@ -1,18 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
-ll dp[100001][202];
-ll anss[100001][202];
+ll dp[100005][205];
+ll anss[100005][205];
+ll best[100005][205];
 ll m = 1e9 + 21;
 ll n, e, k, ans, an, cnt;
 ll t, a, c;
 vector<bool> v, rv, vf;
-vector<vector<int>> g, rg, h;
-vector<set<int>> gg;
-vector<int> b;
-int leader[100001];
-stack<int> st;
-void dfs(int u)
+vector<vector<ll>> g, rg, h;
+vector<set<ll>> gg;
+vector<ll> b;
+ll leader[100005];
+stack<ll> st;
+void dfs(ll u)
 {
     v[u] = true;
     for (auto j = g[u].begin(); j != g[u].end(); j++)
@@ -24,7 +25,7 @@ void dfs(int u)
     }
     st.push(u);
 }
-void my_dfs(int u)
+void my_dfs(ll u)
 {
     h[cnt].push_back(b[u]);
     leader[u] = cnt;
@@ -37,31 +38,36 @@ void my_dfs(int u)
         }
     }
 }
-void dffs(int u)
+void dffs(ll u)
 {
     vf[u] = true;
-    for (auto j : gg[u])
+    if (gg[u].empty())
     {
-        if (!vf[j])
-        {
-            dffs(j);
-        }
-        ll l = h[u].size();
         for (int f = 0; f <= k; f++)
         {
-            if (f >= l)
+            best[u][f] = anss[u][f];
+        }
+    }
+    else
+    {
+        ll temp[k + 1] = {0};
+        for (ll j : gg[u])
+        {
+            if (!vf[j])
             {
-                dp[u][f] = max(dp[u][f], anss[j][k - f]);
+                dffs(j);
             }
-            else
+            for (int f = 0; f <= k; f++)
             {
-                ll q = h[u][f];
-                dp[u][f] = max(dp[u][f], q * (l - f) + anss[j][k - f]);
+                temp[f] = max(temp[f], best[j][f]);
             }
-            if (f == 0)
-                anss[u][f] = dp[u][f];
-            else
-                anss[u][f] = max(dp[u][f], anss[u][f - 1]);
+        }
+        for (int y = 0; y <= k; y++)
+        {
+            for (int f = 0; f <= y; f++)
+            {
+                best[u][y] = max(best[u][y], anss[u][f] + temp[y-f]);
+            }
         }
     }
 }
@@ -70,14 +76,15 @@ void initialise()
 {
     v.assign(n, false);
     rv.assign(n, false);
-    g.assign(n, vector<int>());
-    rg.assign(n, vector<int>());
+    g.assign(n, vector<ll>());
+    rg.assign(n, vector<ll>());
     b.assign(n, 0);
     memset(dp, 0, sizeof(dp));
     memset(anss, 0, sizeof(anss));
-    memset(leader,0,sizeof(leader));
+    memset(best, 0, sizeof(best));
+    memset(leader, 0, sizeof(leader));
 }
-void clear()
+void cllr()
 {
     h.clear();
     g.clear();
@@ -89,19 +96,19 @@ void clear()
     b.clear();
 }
 int main()
-{   
+{
     ios::sync_with_stdio(false);
     cin.tie(0);
     cin >> t;
     while (t--)
     {
         cin >> n >> e >> k;
-        int mn[e][2];
+        ll mn[e][2];
         initialise();
         cnt = 0;
-        for (int i = 0; i < n; i++)
+        for (ll i = 0; i < n; i++)
             cin >> b[i];
-        for (int i = 0; i < e; i++)
+        for (ll i = 0; i < e; i++)
         {
             cin >> a >> c;
             a--;
@@ -111,44 +118,44 @@ int main()
             g[a].push_back(c);
             rg[c].push_back(a);
         }
-        for (int i = 0; i < n; i++)
+        for (ll i = 0; i < n; i++)
         {
             if (!v[i])
                 dfs(i);
         }
         while (!st.empty())
         {
-            int x = st.top();
+            ll x = st.top();
             st.pop();
             if (!rv[x])
             {
-                h.push_back(vector<int>());
+                h.push_back(vector<ll>());
                 my_dfs(x);
                 cnt++;
             }
         }
-        for (int i = 0; i < cnt; i++)
+        for (ll i = 0; i < cnt; i++)
         {
             sort(h[i].begin(), h[i].end());
             // for(auto j:h[i])
             //     cout<<j<<" ";
             // cout<<"\n";
         }
-        gg.assign(cnt, set<int>());
-        vf.assign(cnt,false);
-        for (int i = 0; i < e; i++)
+        gg.assign(cnt, set<ll>());
+        vf.assign(cnt, false);
+        for (ll i = 0; i < e; i++)
         {
-            int l1 = leader[mn[i][0]];
-            int l2 = leader[mn[i][1]];
+            ll l1 = leader[mn[i][0]];
+            ll l2 = leader[mn[i][1]];
             if (l1 != l2)
             {
                 gg[l1].insert(l2);
             }
         }
-        for (int i = 0; i < cnt; i++)
+        for (ll i = 0; i < cnt; i++)
         {
             ll l = h[i].size();
-            for (int j = 0; j <= k; j++)
+            for (ll j = 0; j <= k; j++)
             {
                 if (j >= l)
                 {
@@ -165,17 +172,20 @@ int main()
                     anss[i][j] = max(dp[i][j], anss[i][j - 1]);
             }
         }
-        for (int i = 0; i < cnt; i++)
-        {   
-            if(!vf[i])
+        for (ll i = 0; i < cnt; i++)
+        {
+            if (!vf[i])
                 dffs(i);
         }
         ans = 0;
-        for(int i=0;i<cnt;i++)
+        for (ll i = 0; i < cnt; i++)
         {
-            ans = max(ans,anss[i][k]);
+            for (ll j = 0; j <= k; j++)
+            {
+                ans = max(ans, best[i][j]);
+            }
         }
-        cout<<ans%m<<"\n";
-        clear();
+        cout << ans % m << endl;
+        cllr();
     }
 }
