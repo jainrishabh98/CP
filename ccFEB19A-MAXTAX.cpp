@@ -55,8 +55,8 @@ void dffs(int u)
             }
             else
             {
-                c = h[u][f];
-                dp[u][f] = max(dp[u][f], c * (l - f) + anss[j][k - f]);
+                ll q = h[u][f];
+                dp[u][f] = max(dp[u][f], q * (l - f) + anss[j][k - f]);
             }
             if (f == 0)
                 anss[u][f] = dp[u][f];
@@ -75,6 +75,7 @@ void initialise()
     b.assign(n, 0);
     memset(dp, 0, sizeof(dp));
     memset(anss, 0, sizeof(anss));
+    memset(leader,0,sizeof(leader));
 }
 void clear()
 {
@@ -156,7 +157,7 @@ int main()
                 else
                 {
                     c = h[i][j];
-                    dp[i][j] = (c * (l - j)) % m;
+                    dp[i][j] = (c * (l - j));
                 }
                 if (j == 0)
                     anss[i][j] = dp[i][j];
@@ -174,7 +175,7 @@ int main()
         {
             ans = max(ans,anss[i][k]);
         }
-        cout<<ans<<"\n";
+        cout<<ans%m<<"\n";
         clear();
     }
 }
