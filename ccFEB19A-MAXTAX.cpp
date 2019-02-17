@@ -74,29 +74,14 @@ void dffs(int u)
                 temp[f] = temp[f - 1];
             }
         }
-        if (h[u].size() == 1)
+        int l = h[u].size();
+        for (int f = 0; f <= min(l-1,k); f++)
         {
-            for (int y = 0; y <= k; y++)
+            for (int y = f; y <= k; y++)
             {
-                if(temp[y] + anss[u][0] > best[u][y])
+                if (temp[y-f] + anss[u][f] > best[u][y])
                 {
-                    best[u][y] = temp[y] + anss[u][0];
-                }
-            }
-        }
-        else
-        {
-            ll tmp, tmp2;
-            for (int y = 0; y <= k; y++)
-            {
-                for (int f = 0; f <= y / 2; f++)
-                {
-                    tmp = anss[u][f] + temp[y - f];
-                    tmp2 = anss[u][y - f] + temp[f];
-                    if (tmp >= tmp2 && tmp > best[u][y])
-                        best[u][y] = tmp;
-                    else if (tmp2 >= tmp && tmp2 > best[u][y])
-                        best[u][y] = tmp2;
+                    best[u][y] = temp[y-f] + anss[u][f];
                 }
             }
         }
