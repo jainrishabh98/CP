@@ -7,68 +7,19 @@ int main ()
     cin.tie(0);
     ll n,m,k;
     cin>>n>>m>>k;
-    ll b[n];
+    ll b[n],p[n];
     for(int i=0;i<n;i++)    cin>>b[i];
-    ll low=b[0];
-    ll ans = 0,cnt=1;
-    ll v[n]={0};
-    v[0]=1;
-    vector <int>vec;
-    for(int i=1;i<n-1;i++)
+    
+    for(int i=0;i<n-1;i++)
     {
-        if(b[i+1] - b[i] < b[i] - low)
-        {
-            low = b[i];
-            cnt++;
-            v[i]=1;
-            vec.push_back(i);
-        }
+        p[i] = b[i+1] - b[i];
     }
-    if(cnt<=k)
+    sort(p,p+n-1);
+    ll ans = 0;
+    for(int i=0;i<n-k;i++)
     {
-    int h = n-1;
-    for(;h>=0;h--)
-    {
-        if(cnt==k)
-        {
-            break;
-        }
-        if(v[h]!=1)
-        {
-            v[h]=1;
-            cnt++;
-        }
+        ans += p[i];
     }
-    }
-    else
-    {
-    int j = vec.size()-1,i=0;
-    int hi = b[n-1];
-    while(i<j)
-    {
-        if(cnt==k)
-        {
-            break;
-        }
-        if(b[vec[i+2]-1] - b[vec[i]] <= hi - b[vec[j-1]])
-        {
-            v[vec[i+1]]=0;
-            cnt--;
-            i+=2;
-        }
-        else
-        {
-            v[vec[i+1]]=0;
-            cnt--;
-            
-        }
-    }
-    }
-    for(int i=n-1;i>=0;i--)
-    {   
-        ll high = b[i];
-        while(v[i]!=1)  i--;
-        ans += (high - b[i] + 1);
-    }
+    ans += k;
     cout<<ans;
 }
