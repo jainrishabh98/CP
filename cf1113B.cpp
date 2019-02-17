@@ -19,7 +19,7 @@ int main()
     vector<int> v[101];
     for(int i=1;i<=100;i++)
     {
-        for (int j = 2; j * j <= i; j++)
+        for (int j = 2; j*j <= i; j++)
         {
             if (i % j == 0)
             {
@@ -30,8 +30,6 @@ int main()
     int add = 0, diff = 0;
     for (int i = n - 1; i >= 1; i--)
     {
-        if (v[p[i]].size() == 0)
-            continue;
         for (auto k : v[p[i]])
         {
             if (((p[0] * k - p[0]) - (p[i] - p[i] / k)) < (add - diff))
@@ -40,8 +38,6 @@ int main()
                 diff = (p[i] - p[i] / k);
             }
         }
-        if ((add - diff) != 0)
-            break;
     }
     cout << sum + add - diff;
 }
