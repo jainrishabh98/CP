@@ -1,48 +1,43 @@
 #include <bits/stdc++.h>
 using namespace std;
+typedef long long int ll;
+int ans[1001][1001];
 int main()
 {
-    int n, k, d;
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n, d, k;
     cin >> n >> k >> d;
-    int p = n / k;
-    if (k >= n)
+    ll temp = 1;
+    bool flag = false;
+    for (int i = 0; i < d; i ++)
     {
-        for (int j = 1; j <= d; j++)
+        temp *= k;
+        if (temp >= n)
         {
-            for (int i = 1; i <= n; i++)
-            {
-                cout << i << " ";
-            }
-            cout << "\n";
+            flag = true;
+            break;
         }
+    }
+
+    if (!flag) 
+    {
+        cout << -1 << endl;
         return 0;
     }
-    if (d == 1 || p + n % k > k)
+
+    for (int i = 1; i < n; i ++) 
     {
-        cout << "-1";
-        return 0;
-    }
-    for (int j = 1; j <= d - 1; j++)
-    {
-        for (int i = 1; i <= k; i++)
+        for (int j = 0; j < d; j ++) ans[i][j] = ans[i - 1][j];
+        for (int j = d - 1; j >= 0; j --)
         {
-            for (int h = 1; h <= p; h++)
-                cout << i << " ";
+            ans[i][j] = (ans[i][j] + 1) % k;
+            if (ans[i][j]) break;
         }
-        for (int h = p * k + 1; h <= n; h++)
-        {
-            cout << k << " ";
-        }
-        cout << "\n";
     }
-    for (int i = 1; i <= k; i++)
-    {
-        for (int h = 1; h <= p; h++)
-            cout << h << " ";
-    }
-    for (int h = p * k + 1; h <= n; h++)
-    {
-        cout << p + (h - p * k ) << " ";
-    }
-    cout << "\n";
+
+    for (int i = 0; i < d; i ++, cout << endl)
+        for (int j = 0; j < n; j ++)
+            cout << ans[j][i] + 1 << ' ';
+    
 }
