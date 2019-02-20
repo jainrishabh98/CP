@@ -1,64 +1,45 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-int main ()
+int cnt[100005];
+int main()
 {
     string s;
-    cin>>s;
+    cin >> s;
     int l = s.length();
-    int lps[l]; 
+    int lps[l];
     lps[0] = 0;
-    int len = 0; 
-    int i = 1; 
-    while (i < l) 
-    { 
-        if (s[i] == s[len]) 
-        { 
-            len++; 
-            lps[i] = len; 
-            i++; 
-        } 
-        else 
-        { 
-         
-            if (len != 0) 
-            { 
-                len = lps[len-1]; 
-            } 
-            else 
-            { 
-                lps[i] = 0; 
-                i++; 
-            } 
-        } 
-    } 
-    int g = lps[l-1];
-    int cnt[g+3]={0};
-    while(g!=0)
+    int len = 0;
+    for (int i = 1; i < l; i++)
     {
-        // cout<<g<<" ";
-    for(int i=l-1;i>=0;i--)
-    {   cout<<lps[i]<<" ";
-        if(lps[i]>=g)
-        {
-            cnt[g]++;
-        }
+        int j = lps[i - 1];
+        while (j > 0 && s[i] != s[j])
+            j = lps[j - 1];
+        if (s[i] == s[j])
+            j++;
+        lps[i] = j;
     }
-    cout<<"\n";
-    g = lps[g-1];
-    }
-    int num = 0;
-    for(int i=1;i<=g+2;i++)
+    for (int i = 0; i < l; i++)
     {
-        if(cnt[i]!=0)
-            num++;
+        cnt[lps[i]]++;
     }
-    cout<<num+1<<"\n";
-    for(int i=1;i<=g+2;i++)
+    for(int i=l-1;i>=1;i--)
     {
-        if(cnt[i]!=0)
-        {
-            cout<<i<<" "<<cnt[i]<<"\n";
-        }
+        cnt[lps[i-1]] += cnt[i];
     }
-    cout<<l<<" "<<1;
+    int g = lps[l - 1];
+    vector <pair<int,int> > p;
+    while (g != 0)
+    {   
+        if(cnt[g]!=0)
+            p.push_back(make_pair(g,cnt[g]+1));
+        g = lps[g - 1];
+    }
+    int num = p.size();
+    cout << num + 1 << "\n";
+    sort(p.begin(),p.end());
+    for(int k=0;k<num;k++)
+    {
+        cout<<p[k].first<<" "<<p[k].second<<"\n";
+    }
+    cout << l << " " << 1;
 }
