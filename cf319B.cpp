@@ -4,39 +4,26 @@ int main()
 {
     int n;
     cin >> n;
-    stack<int> a,b;
+    int t[n+1],val[n+1];
     int x;
     for (int i = 0; i < n; i++)
     {
-        cin >> x;
-        a.push(x);
+        cin >> val[i];
+        
     }
-    int flag = 0;
-    int cnt = 0;
-    while (flag == 0)
-    {
-        flag = 1;
-        for (int i = a.size()-1; i > 0; i--)
-        {
-            int temp = a.top();
-            a.pop();
-            if (temp < a.top())
-            {
-                flag = 0;
-            }
-            else
-            {
-                b.push(temp);
-            }
+    stack <int> S;
+    int sol = 0;
+    for (int i=0; i<n; ++i) {
+        t[i] = 0;
+        while (S.size()>0 && val[S.top()]<val[i]) {
+            t[i] = max(t[i], t[S.top()]+1);
+            S.pop();
         }
-        while(!b.empty())
-        {
-            int temp = b.top();
-            b.pop();
-            a.push(temp);
+        if (S.size() == 0) {
+            t[i] = -1;
         }
-        if (flag == 0)
-            cnt++;
+        S.push(i);
+        sol = max(sol, t[i]+1);
     }
-    cout << cnt;
+    cout<<sol;
 }
