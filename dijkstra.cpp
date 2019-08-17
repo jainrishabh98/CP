@@ -6,8 +6,8 @@ vector <int> dist;
 long long int INF = INT_MAX;
 void addedge(int u,int v,int wt)
 {
-    g[u].push_back(make_pair(v,wt));
-    g[v].push_back(make_pair(u,wt));
+    g[u].push_back(make_pair(wt,v));
+    g[v].push_back(make_pair(wt,u));
 }
 void shortestPath (int src)
 {
@@ -20,8 +20,8 @@ void shortestPath (int src)
         pq.pop();
         for (auto i : g[u])
         {
-            int v = i.first;
-            int weight = i.second;
+            int weight = i.first;
+            int v = i.second;
             if(dist[v] > dist[u] + weight)
             {
                 dist[v] = dist[u] + weight;
