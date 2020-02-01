@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-int v[100005];
-vector<vector<int>> g;
+const int MAX_N = 100005;
+int vis[100005];
+vector <int> g[MAX_N];
 int tin[100005];
 int tout[100005];
-vector <pair<int,int>> segtree;
-vector <pair<int,int>> arr;
+pair<int,int> segtree[8*MAX_N];
+pair<int,int> arr[2*MAX_N];
 int sz=0;
 int qlow, qhigh, p, diff;
 void build (int low, int high, int pos)
@@ -30,20 +31,20 @@ pair<int,int> query(int low, int high, int pos)
     int mid = (low+high)/2;
     return min(query(low,mid,2*pos + 1) , query(mid+1, high, 2*pos + 2));
 }
-void my_dfs(int u)
+void dfs(int u)
 {
-    
-    arr.push_back({v[u],u});
+    // mark vis of root
+    arr[sz] = {vis[u],u};
     tin[u] = sz;
     tout[u] = sz;
     sz++;
-    for (auto j = g[u].begin(); j != g[u].end(); j++)
+    for (auto j : g[u])
     {
-        if (!v[*j])
+        if (!vis[j])
         {
-            v[*j] = v[u] + 1;
-            my_dfs(*j);
-            arr.push_back({v[u],u});
+            vis[j] = vis[u] + 1;
+            dfs(j);
+            arr[sz] = {vis[u],u};
             tout[u] = max(tout[u],sz);
             sz++;
         }
@@ -56,7 +57,6 @@ int main()
     cin.tie(0);
     int n;
     cin >> n;
-    g.assign(n, vector<int>());
     int a, b;
     for (int i = 0; i < n; i++)
     {
@@ -69,13 +69,9 @@ int main()
         }
         
     }
-    v[0] = 1;
-    my_dfs(0);
-    int pp = sz;
-    int temp = (int)(ceil(log2(pp)));
-    int max_size = 2*(int)pow(2,temp) -1;
-    segtree.assign(max_size,{0,0});
-    build(0,pp-1,0);
+    vis[0] = 1;
+    dfs(0);
+    build(0,sz-1,0);
     int q,u,v;
     // for(int i=0;i<pp;i++)
         // cout<<arr[i]<<" ";
@@ -95,6 +91,6 @@ int main()
             qhigh = tout[u];
         }
         // cout<<qlow<<" "<<qhigh<<"\n";
-        cout<<query(0,pp-1,0).second<<"\n";
+        cout<<query(0,sz-1,0).second<<"\n";
     }
 }

@@ -5,6 +5,5 @@ int main()
 {
     int k;
     string s,t;
-    cin>>s>>t;
-    
+    // cin>>s>>t;
 }

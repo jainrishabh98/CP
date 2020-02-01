@@ -3,7 +3,11 @@
     "files.associations": {
         "iostream": "cpp",
         "cmath": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "random": "cpp",
+        "complex": "cpp",
+        "cstdlib": "cpp",
+        "istream": "cpp"
     },
     "terminal.integrated.commandsToSkipShell": [
         "editor.action.toggleTabFocusMode",

@@ -18,7 +18,7 @@ int main ()
             high = mid;
         else
             low = mid + 1;
-        cout<<mid<<" "<<r<<"\n";
+        // cout<<mid<<" "<<r<<"\n";
     }
     cout<<low<<"\n";
     return 0;
