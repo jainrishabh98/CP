@@ -2,9 +2,10 @@
 using namespace std;
 typedef long long ll;
 const int MAX_NN = 200005;
-int segtree[4 * MAX_NN];
-int arr[MAX_NN];
-int qlow, qhigh, p, diff;
+ll segtree[4 * MAX_NN];
+ll arr[MAX_NN];
+ll qlow, qhigh, l, r, diff;
+ll lazy[4 * MAX_NN];
 void build(int low, int high, int pos)
 {
     if (low == high)
@@ -19,19 +20,32 @@ void build(int low, int high, int pos)
 }
 void update(int low, int high, int pos)
 {
-    if (p < low || p > high)
+    if (r < low || l > high)
         return;
-    if (low != high)
+    if (lazy[pos] != 0)
     {
-        int mid = (low + high) / 2;
-        update(low, mid, 2 * pos + 1);
-        update(mid + 1, high, 2 * pos + 2);
-        segtree[pos] = min(segtree[2 * pos + 1], segtree[2 * pos + 2]);
+        segtree[pos] += lazy[pos];
+        if (low != high)
+        {
+            lazy[2 * pos + 1] += lazy[pos];
+            lazy[2 * pos + 2] += lazy[pos];
+        }
+        lazy[pos] = 0;
     }
-    else
+    if (low >= l && high <= r)
     {
         segtree[pos] += diff;
+        if (low != high)
+        {
+            lazy[2 * pos + 1] += diff;
+            lazy[2 * pos + 2] += diff;
+        }
+        return;
     }
+    int mid = (low + high) / 2;
+    update(low, mid, 2 * pos + 1);
+    update(mid + 1, high, 2 * pos + 2);
+    segtree[pos] = min(segtree[2 * pos + 1], segtree[2 * pos + 2]);
 }
 int main()
 {
@@ -52,14 +66,27 @@ int main()
         p[i]--;
         mp[p[i]] = i;
     }
-    for(int i=0;i<n;i++)
-        cin>>a[i];
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
     arr[0] = a[0];
     for (int i = 1; i < n; i++)
         arr[i] = arr[i - 1] + a[i];
-    build(0, n - 1, 0);
-    for (int i = 0; i < n; i++)
+    build(0, n - 2, 0);
+    ll ans = min(segtree[0], a[0]);
+    // cout<<ans<<"\n";
+    for (int i = 0; i < n - 1; i++)
     {
         int poss = mp[i];
+        l = 0;
+        r = poss - 1;
+        diff = a[poss];
+        if (r >= l)
+            update(0, n - 2, 0);
+        l = poss;
+        r = n - 2;
+        diff = -a[poss];
+        update(0, n - 2, 0);
+        ans = min(ans, (ll)segtree[0]);
     }
+    cout << min(ans, a[n - 1]);
 }
